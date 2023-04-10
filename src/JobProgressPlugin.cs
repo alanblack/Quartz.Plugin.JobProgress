@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Quartz.Listener;
 using Quartz.Plugin.JobProgress.Data;
 using Quartz.Spi;
@@ -9,7 +10,7 @@ public class JobProgressPlugin : JobListenerSupport, ISchedulerPlugin, IJobProgr
 {
     public override string Name => "JobProgressPlugin";
     private IScheduler _scheduler = null!;
-    private Dictionary<string, ProgressObserver> _observers = new Dictionary<string,ProgressObserver>();
+    private ConcurrentDictionary<string, ProgressObserver> _observers = new ConcurrentDictionary<string,ProgressObserver>();
 
     public JobProgressPlugin()
     {
@@ -38,7 +39,17 @@ public class JobProgressPlugin : JobListenerSupport, ISchedulerPlugin, IJobProgr
 
         var observable = new ProgressObservable();
         observable.Subscribe(observer);
-        _observers.Add(context.FireInstanceId, observer);
+        _observers.TryAdd(context.FireInstanceId, observer);
+        return Task.CompletedTask;
+    }
+
+    public override Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
+    {
+        if(_observers.TryRemove(context.FireInstanceId, out var observer))
+        {
+            Console.WriteLine($"Observer for job {context.JobDetail.Key.Name} removed");
+            observer.OnCompleted();
+        }
         return Task.CompletedTask;
     }
 
