@@ -18,9 +18,15 @@ sealed class ProgressObserver : IObserver<ProgressData>
     public void OnNext(ProgressData value)
     {
         CurrentProgressData = value;
-        var jobListeners = _scheduler.ListenerManager.GetJobListeners().Where(x => x is IJobProgressListener).OfType<IJobProgressListener>().ToList();
-        jobListeners.ForEach(x => x.JobProgressWasChanged(_context, value, default));
+        InvokeListeners(value);
     }
+
+    private void InvokeListeners(ProgressData data)
+    {
+        var jobListeners = _scheduler.ListenerManager.GetJobListeners().Where(x => x is IJobProgressListener).OfType<IJobProgressListener>().ToList();
+        jobListeners.ForEach(x => x.JobProgressWasChanged(_context, data, default));
+    }
+
     public void OnCompleted()
     {
     }
