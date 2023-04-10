@@ -20,9 +20,9 @@ public static class PluginConfigurationExtensions
         {
         }
 
-    public int MyConfigProperty
+    public int DefaultThreshold
         {
-            //set => SetProperty("MyConfigProperty", value.ToString());
+            //set => SetProperty("DefaultThreshold", value.ToString());
             get;set;
         }
     }
