@@ -3,15 +3,15 @@ namespace Quartz.Plugin.JobProgress.Data;
 public class ProgressData
 {
     public ProgressData() {}
-    public ProgressData(int percent, object? data=null)
+    public ProgressData(int progress, object? data=null)
     {
-        Percent = percent;
+        Progress = progress;
         Data = data;
     }
 
-    private int _percent;
+    private int progress;
     private object? _data;
 
-    public int Percent { get => _percent; set => _percent = value; }
+    public int Progress { get => progress; set => progress = value; }
     public object? Data { get => _data; set => _data = value; }
 }
