@@ -1,6 +1,6 @@
 using Quartz.Util;
 
-namespace Quartz.Plugin.JobProgress.Extensions;
+namespace Quartz.Plugin.JobProgress;
 
 public static class PluginConfigurationExtensions
 {
@@ -8,7 +8,7 @@ public static class PluginConfigurationExtensions
             this T configurer,
             Action<JobProgressReportOptions>? configure = null) where T : IPropertyConfigurationRoot
         {
-            configurer.SetProperty("quartz.plugin.jobProgressReport.type", typeof(JobProgressReportPlugin).AssemblyQualifiedNameWithoutVersion());
+            configurer.SetProperty("quartz.plugin.jobProgressReport.type", typeof(JobProgressPlugin).AssemblyQualifiedNameWithoutVersion());
             configure?.Invoke(new JobProgressReportOptions(configurer));
             return configurer;
         }

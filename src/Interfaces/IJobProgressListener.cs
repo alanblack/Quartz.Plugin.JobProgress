@@ -1,6 +1,6 @@
 using Quartz.Plugin.JobProgress.Data;
 
-namespace Quartz.Plugin.JobProgress.Interfaces;
+namespace Quartz.Plugin.JobProgress;
 
 public interface IJobProgressListener : IJobListener
 {

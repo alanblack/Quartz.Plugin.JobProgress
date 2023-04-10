@@ -1,6 +1,4 @@
-using Quartz.Listener;
 using Quartz.Plugin.JobProgress.Data;
-using Quartz.Plugin.JobProgress.Interfaces;
 
 namespace Quartz.Plugin.JobProgress.Listener;
 
